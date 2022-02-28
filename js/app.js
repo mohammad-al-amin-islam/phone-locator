@@ -3,9 +3,30 @@ document.getElementById('button').addEventListener('click', function () {
     const getInputTextValue = getInputText.value.toLowerCase();
 
     const url = `https://openapi.programming-hero.com/api/phones?search=${getInputTextValue}`
-    console.log(url);
 
     fetch(url)
-    .then(res => res.json())
-    .then(data =>console.log(data));
-})
+        .then(res => res.json())
+        .then(data => displayPhone(data.data));
+});
+
+const displayPhone = phones => {
+    const displayPhoneHolder = document.getElementById('phone-display');
+    displayPhoneHolder.textContent = "";
+    phones.forEach(phone => {
+        const div = document.createElement('div');
+        console.log(phone);
+        div.classList.add('col');
+        div.innerHTML = `
+        <div class="card h-100 shadow-sm rounded p-5 border-0">
+            <img class="img-fluid" src="${phone.image}" class="card-img-top" alt="...">
+            <div class="card-body">
+            <h5 class="card-title">${phone.phone_name}</h5>
+            <p>Brand: ${phone.brand}</p>
+            <a href="#" class="btn btn-primary mt-1">Details</a>
+            </div>
+        </div>
+
+        `
+        displayPhoneHolder.appendChild(div);
+    });
+}

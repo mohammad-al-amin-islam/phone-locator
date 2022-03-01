@@ -26,11 +26,19 @@ const displayPhone = phones => {
             <div class="card-body">
             <h5 class="card-title">${phone.phone_name}</h5>
             <p>Brand: ${phone.brand}</p>
-            <a href="#" class="btn btn-primary mt-1">Details</a>
+            <a href="#" onclick="phoneDetails('${phone.slug}')" class="btn btn-primary mt-1">Details</a>
             </div>
         </div>
 
         `
         displayPhoneHolder.appendChild(div);
     });
+}
+
+//phone details ata fetch area
+const phoneDetails =(name) =>{
+    const url = `https://openapi.programming-hero.com/api/phone/${name}`
+    fetch(url)
+    .then(res =>res.json())
+    .then( data =>console.log(data.data));
 }

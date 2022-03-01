@@ -18,9 +18,15 @@ document.getElementById('button').addEventListener('click', function () {
         .then(res => res.json())
         .then(data => displayPhone(data.data.slice(0, 20)));
 
+    spiner('block');
 });
 
+const spiner = (input) => {
+    document.getElementById('loading-signal').style.display = input;
+}
+
 const displayPhone = phones => {
+    spiner('none');
     const displayPhoneHolder = document.getElementById('phone-display');
     displayPhoneHolder.textContent = "";
     if (phones.length == 0) {
@@ -59,7 +65,6 @@ const phoneDetails = (name) => {
 
 //display phone details area
 const displayPhoneDetails = phone => {
-    console.log(phone);
     const detailsHolder = document.getElementById('details-holder');
     detailsHolder.innerHTML = "";
     const div = document.createElement('div');

@@ -7,7 +7,9 @@ document.getElementById('button').addEventListener('click', function () {
 
     fetch(url)
         .then(res => res.json())
-        .then(data => displayPhone(data.data));
+        .then(data => displayPhone(data.data.slice(0, 20)));
+
+
 });
 
 const displayPhone = phones => {
@@ -32,9 +34,11 @@ const displayPhone = phones => {
         `
         displayPhoneHolder.appendChild(div);
     });
+    const detailsHolder = document.getElementById('details-holder');
+    detailsHolder.innerHTML = "";
 }
 
-//phone details ata fetch area
+//phone details fetch area
 const phoneDetails = (name) => {
     const url = `https://openapi.programming-hero.com/api/phone/${name}`
     fetch(url)
@@ -42,21 +46,36 @@ const phoneDetails = (name) => {
         .then(data => displayPhoneDetails(data.data));
 }
 
+
+
+//display phone details area
 const displayPhoneDetails = phone => {
     console.log(phone);
     const detailsHolder = document.getElementById('details-holder');
-    detailsHolder.textContent = "";
+    detailsHolder.innerHTML = "";
     const div = document.createElement('div');
+    div.classList.add = "card";
     div.innerHTML = `
-            <img src="${phone.image}" class="card-img-top" alt="...">
-            <div class="card-body">
+            <img src="${phone.image}" class="card-img-top p-3" alt="...">
+            <div id="card-body-id" class="card-body p-3">
               <h5 class="card-title">${phone.name}</h5>
               
               <p class="card-text"><span class="fw-bold">Release Date: </span>${phone.releaseDate ? phone.releaseDate : 'No release date found'}</p>
               <p class="card-text"><span class="fw-bold">Chipset: </span>${phone.mainFeatures.chipSet}</p>
               <p class="card-text"><span class="fw-bold">Display Size: </span>${phone.mainFeatures.displaySize}</p>
-              <p class=""><span class="fw-bold">Memory: </span>${phone.mainFeatures.memory}</p>
+              <p class="card-text"><span class="fw-bold">Memory: </span>${phone.mainFeatures.memory}</p>
               <p class="card-text"><span class="fw-bold">Storage: </span>${phone.mainFeatures.storage}</p>
+              
+              //sesnsor area
+              <p class="card-text"><span class="fw-bold">Sensor:</span>${phone.mainFeatures.sensors.slice(0, 4)}</p>
+
+              //other features area
+              <p class="card-text"><span class="fw-bold">Bluetooth: </span>${phone.others?.Bluetooth ? phone.others.Bluetooth : 'No Blutooth information found'}</p>
+              <p class="card-text"><span class="fw-bold">GPS: </span>${phone.others?.GPS ? phone.others.GPS : 'No GPS information found'}</p>
+              <p class="card-text"><span class="fw-bold">NFC: </span>${phone.others?.NFC ? phone.others.NFC : 'No NFC information found'}</p>
+              <p class="card-text"><span class="fw-bold">Radio: </span>${phone.others?.Radio ? phone.others.Raido : 'No Radio information found'}</p>
+              <p class="card-text"><span class="fw-bold">USB: </span>${phone.others?.USB ? phone.others.USB : 'No USB information found'}</p>
+              <p class="card-text"><span class="fw-bold">WLAN: </span>${phone.others?.WLAN ? phone.others.WLAN : 'No WLAN information found'}</p>
             </div>
     
     `

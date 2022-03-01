@@ -1,6 +1,7 @@
 document.getElementById('button').addEventListener('click', function () {
     const getInputText = document.getElementById('input-text');
     const getInputTextValue = getInputText.value.toLowerCase();
+    getInputText.value = "";
 
     const url = `https://openapi.programming-hero.com/api/phones?search=${getInputTextValue}`
 
@@ -12,6 +13,9 @@ document.getElementById('button').addEventListener('click', function () {
 const displayPhone = phones => {
     const displayPhoneHolder = document.getElementById('phone-display');
     displayPhoneHolder.textContent = "";
+    if(phones.length == 0){
+        document.getElementById('notfound').style.display = "block";
+    }
     phones.forEach(phone => {
         const div = document.createElement('div');
         console.log(phone);

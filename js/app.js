@@ -1,6 +1,15 @@
 document.getElementById('button').addEventListener('click', function () {
     const getInputText = document.getElementById('input-text');
     const getInputTextValue = getInputText.value.toLowerCase();
+    if (getInputTextValue == '') {
+        document.getElementById('not-given-input').style.display = "block";
+        document.getElementById('notfound').style.display = "none";
+        const detailsHolder = document.getElementById('details-holder');
+        detailsHolder.innerHTML = "";
+        const displayPhoneHolder = document.getElementById('phone-display');
+        displayPhoneHolder.textContent = "";
+        return;
+    }
     getInputText.value = "";
 
     const url = `https://openapi.programming-hero.com/api/phones?search=${getInputTextValue}`
@@ -9,7 +18,6 @@ document.getElementById('button').addEventListener('click', function () {
         .then(res => res.json())
         .then(data => displayPhone(data.data.slice(0, 20)));
 
-
 });
 
 const displayPhone = phones => {
@@ -17,6 +25,7 @@ const displayPhone = phones => {
     displayPhoneHolder.textContent = "";
     if (phones.length == 0) {
         document.getElementById('notfound').style.display = "block";
+        document.getElementById('not-given-input').style.display = "none";
     }
     phones.forEach(phone => {
         const div = document.createElement('div');
@@ -66,10 +75,10 @@ const displayPhoneDetails = phone => {
               <p class="card-text"><span class="fw-bold">Memory: </span>${phone.mainFeatures.memory}</p>
               <p class="card-text"><span class="fw-bold">Storage: </span>${phone.mainFeatures.storage}</p>
               
-              //sesnsor area
+              
               <p class="card-text"><span class="fw-bold">Sensor:</span>${phone.mainFeatures.sensors.slice(0, 4)}</p>
 
-              //other features area
+              
               <p class="card-text"><span class="fw-bold">Bluetooth: </span>${phone.others?.Bluetooth ? phone.others.Bluetooth : 'No Blutooth information found'}</p>
               <p class="card-text"><span class="fw-bold">GPS: </span>${phone.others?.GPS ? phone.others.GPS : 'No GPS information found'}</p>
               <p class="card-text"><span class="fw-bold">NFC: </span>${phone.others?.NFC ? phone.others.NFC : 'No NFC information found'}</p>

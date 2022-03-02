@@ -1,7 +1,9 @@
+//search button area
 document.getElementById('button').addEventListener('click', function () {
     const getInputText = document.getElementById('input-text');
     const getInputTextValue = getInputText.value.toLowerCase();
-    if (getInputTextValue == '') {
+    getInputText.value = "";
+    if (!isNaN(getInputTextValue)) {
         document.getElementById('not-given-input').style.display = "block";
         document.getElementById('notfound').style.display = "none";
         const detailsHolder = document.getElementById('details-holder');
@@ -10,7 +12,7 @@ document.getElementById('button').addEventListener('click', function () {
         displayPhoneHolder.textContent = "";
         return;
     }
-    getInputText.value = "";
+
 
     const url = `https://openapi.programming-hero.com/api/phones?search=${getInputTextValue}`
 
@@ -19,6 +21,8 @@ document.getElementById('button').addEventListener('click', function () {
         .then(data => displayPhone(data.data.slice(0, 20)));
 
     spiner('block');
+    document.getElementById('notfound').style.display = "none";
+    document.getElementById('not-given-input').style.display = "none";
 });
 
 const spiner = (input) => {
